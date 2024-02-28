@@ -15,8 +15,10 @@ from tensorflow.keras.models import Model
 class LeNet5:
 
     # konstruktor (będziemy musieli podać parametr (input_shape) przy tworzeniu instancji modelu)
-    def __init__(self, input_shape):
+    def __init__(self, input_shape, num_classes, final_activation):
         self.input_shape = input_shape
+        self.num_classes = num_classes
+        self.final_activation = final_activation # funkcja aktywacji w ostatniej warstwie
 
     def build(self):
         model = Sequential()
@@ -33,8 +35,7 @@ class LeNet5:
         # warstwy gęste
         model.add(Dense(units=120, activation='relu'))
         model.add(Dense(units=84, activation='relu'))
-        model.add(Dense(units=1, activation='sigmoid')) # units=1: problem binarny;
-        # activation='sigmoid': zwróci prawdopodobieństwo (0-1)
+        model.add(Dense(units=self.num_classes, activation=self.final_activation))
 
         return model
 
@@ -67,7 +68,7 @@ class VGGNetSmall():
 
 
 # pretrained VGG16
-class VGG16():
+class custom_VGG16():
 
     def __init__(self, input_shape, num_classes, final_activation):
         self.input_shape = input_shape
