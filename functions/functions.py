@@ -76,7 +76,7 @@ def show_box(box, ax):
 
 def segment_car(img, box, margin=0):
     '''
-    Funkcja do segmentacji objektu w ramce.
+    Funkcja do segmentacji obiektu w ramce.
     Parametrem jest zdjęcie i ramka. Opcjonalnie można dodać margines do powiększenia ramki
     Funkcja zwraca maske o wymiarach zdjęcia i wartościach True i False.
     '''
@@ -104,7 +104,7 @@ def segment_car(img, box, margin=0):
     show_mask(masks[0], plt.gca())
     show_box(input_box, plt.gca())
     plt.axis('off')
-    plt.title('Wykryty objekt')
+    plt.title('Wykryty obiekt')
     plt.show()
 
     return masks[0]
@@ -168,7 +168,7 @@ def get_car_image(image_path,
                   labels = 'functions/YOLO_detection/coco.names',
                   CONFIDENCE = 0.6, THRESHOLD = 0.3, margin=20, show_data=True):
     '''
-    Funkcja do detekcji objektów (pojazdów).
+    Funkcja do detekcji obiektów (pojazdów).
     Argumentem jest ścieżka do zdjęcia.
     Na wyjściu otrzymamy obraz z wykrytymi pojazdami oraz wykadrowany główny pojazd (z ramką do segmantacji)
     '''
@@ -238,7 +238,7 @@ def get_car_image(image_path,
                 #if area >= 100000: # aby uniknąć małych aut w tle
                 cars.append({'confidence': confidences[i], 'area': area, 'x': x, 'y': y, 'w': w, 'h': h})
                 #image_with_boxes = imutils.resize(image_with_boxes, width=600)
-        cv2.imshow('Wykryte objekty', image_with_boxes)
+        cv2.imshow('Wykryte obiekty', image_with_boxes)
 
 
     if cars: # jeśli znalanł pojazdy
@@ -266,7 +266,7 @@ def get_car_image(image_path,
         main_car_image_resized = imutils.resize(main_car_image, width=600)
         if show_data:
             #print('-' * 80)
-            cv2.imshow('Główny pojazd', main_car_image_resized)
+            cv2.imshow('Pojazd do klasyfikacji', main_car_image_resized)
             cv2.waitKey(0)
         return main_car_image, expanded_box
 
@@ -331,6 +331,8 @@ def show_heatmap(img, model, labels_path):
     ax.imshow(heatmap, cmap='jet', alpha=0.5) # nakładka
     ax.axis('off')
     plt.show()
+
+    print(text)
 
 
 

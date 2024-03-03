@@ -2,7 +2,8 @@
 cars_image
 architecture/__pycache__/
 splitted_images/
-output/
+output/labels_2_classes.pickle
+output/model_custom_VGG16_2_classes.hdf5
 functions/SAM_segmentation/sam_vit_h_4b8939.pth
 functions/YOLO_detection/yolov3.weights
 functions/__pycache__/

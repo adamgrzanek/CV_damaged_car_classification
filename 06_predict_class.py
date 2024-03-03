@@ -11,8 +11,8 @@ from tensorflow.keras.models import load_model
 # parametry przy uruchamianiu
 ap = argparse.ArgumentParser()
 ap.add_argument('-i', '--image', required=True, help='path to image')
-ap.add_argument('-m', '--model', required=False, help='path to model')
-ap.add_argument('-l', '--labels', required=False, help='path to labels')
+ap.add_argument('-m', '--model', required=False, help='path to model', default='output\model_custom_VGG16_2_classes.hdf5')
+ap.add_argument('-l', '--labels', required=False, help='path to labels', default='output\labels_2_classes.pickle')
 args = vars(ap.parse_args())
 
 
@@ -23,10 +23,14 @@ INPUT_SHAPE = (224, 224, 3)
 print('[INFO] Wczytywanie modelu.')
 model = load_model(args['model'])
 image = args['image']
+labels = args['labels']
 
 
 def predict_class(image_path, model, input_shape, labels_path):
-
+    '''
+    Funkcja do klasyfikacji pojedynczego zdjęcia.
+    Na wyjściu pokazuje zdjęcie z etykietą i przewdopodobieństwem.
+    '''
     image = cv2.imread(image_path)
     image = cv2.resize(image, (input_shape[0], input_shape[1]))
     image = image.astype('float') / 255.
@@ -61,4 +65,10 @@ def predict_class(image_path, model, input_shape, labels_path):
 
 
 
-predict_class(args['image'], model, INPUT_SHAPE, args['labels'])
+predict_class(image, model, INPUT_SHAPE, labels)
+
+
+'''
+Przykład uruchomienia w terminalu:
+>>>> python 06_predict_class.py -i example_images/ok_01.jpg
+'''
