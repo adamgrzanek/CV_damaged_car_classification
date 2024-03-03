@@ -19,9 +19,9 @@ print(tf.__version__) # 2.15.0
 # parametry przy uruchamianiu
 ap = argparse.ArgumentParser()
 ap.add_argument('-d', '--dataset', required=True, help='path to image dataset')
-ap.add_argument('-m', '--model', required=True, help='path to model')
+ap.add_argument('-m', '--model', required=False, help='path to model', default='output/model_custom_VGG16_2_classes.hdf5')
 args = vars(ap.parse_args())
-print(f'Podane argumenty: {args}\n') #  {'dataset': 'splitted_images/test', 'model': 'output/model_custom_VGG16_2_classes.hdf5'}
+print(f'Podane argumenty: {args}\n') # {'dataset': 'test_images', 'model': 'output/model_custom_VGG16_2_classes.hdf5'}
 
 
 INPUT_SHAPE = (224, 224, 3)
@@ -97,5 +97,5 @@ print(errors)
 
 '''
 Przykład uruchomienia w terminalu:
->>>> python 05_check_model.py -d splitted_images/test -m output/model_custom_VGG16_2_classes.hdf5
+>>>> python 05_check_model.py -d test_images 
 '''
