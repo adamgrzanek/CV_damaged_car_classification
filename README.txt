@@ -1,9 +1,8 @@
 Projekt dotyczący klasyfikacji zdjęć samochodów osobowych jako uszkodzone lub nie.
-Cały zbiór danych zawierał: 1389 zdjęć aut dobrych i 884 zdjęć aut uszkodzonych.
 Zdjęcia zostały pobrane z otomoto.pl.
 Na pierwszym planie był oceniany samochód.
-
-
+Cały zbiór danych zawierał: 1389 zdjęć aut dobrych i 884 zdjęć aut uszkodzonych.
+Do treningu użyto architektury modelu VGG16 z wstępnie wytrenowanymi wagami na zbiorze 'imagenet'.
 
 
 Przedstawione pliki zawierają:
@@ -16,9 +15,9 @@ Przedstawione pliki zawierają:
 07_predict_with_heatmap.py  ->  klasyfikacja pojedynczego zdjęcia po segmentacji pojazdu
 
 
-
 Przed uruchomieniem:
 Zainstaluj wymagane biblioteki z pliku requirements.txt
+(pip install -r requirements.txt)
 
 
 pobierz plik z modelem i etykietami z poniższego adresu:
@@ -37,7 +36,6 @@ pobierz plik z poniższego adresu:
 https://dl.fbaipublicfiles.com/segment_anything/sam_vit_h_4b8939.pth
 Następnie przenieś go do katalogu "CV_damaged_car_classification/functions/SAM_segmentation"
 w wyniku powinniśmy otrzymać plik "sam_vit_h_4b8939.pth" w tym katalogu
-
 
 
 Po wykonaniu powyższyk kroków można uruchomić pliki do klasyfikacji.

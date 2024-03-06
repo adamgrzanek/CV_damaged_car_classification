@@ -15,12 +15,11 @@ raw_no_of_files = {}
 classes = [CLS_1, CLS_2]
 
 number_of_samples = [(dir, len(os.listdir(os.path.join(base_dir, dir)))) for dir in classes]
-print(number_of_samples)  # [('damaged_cars', 50), ('ok_cars', 100)]
+print(number_of_samples)
 
 
 if not os.path.exists(DATA_DIR): os.mkdir(DATA_DIR)
 
-# Katalogi do zbiorów: train, valid, test
 train_dir = os.path.join(DATA_DIR, 'train')
 valid_dir = os.path.join(DATA_DIR, 'valid')
 test_dir = os.path.join(DATA_DIR, 'test')

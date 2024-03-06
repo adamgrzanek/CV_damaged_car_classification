@@ -19,7 +19,6 @@ args = vars(ap.parse_args())
 INPUT_SHAPE = (224, 224, 3)
 
 
-
 print('[INFO] Wczytywanie modelu.')
 model = load_model(args['model'])
 image = args['image']

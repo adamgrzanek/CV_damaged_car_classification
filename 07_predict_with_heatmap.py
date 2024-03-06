@@ -32,7 +32,6 @@ clean_car = clean_image(img_path, mask)
 
 print('[INFO] Załadowanie modelu')
 loaded_model = load_model(model_path)
-#loaded_model.summary()
 
 print('[INFO] Predykcja i mapa ciepła')
 show_heatmap(clean_car, loaded_model, labels_path)

@@ -13,7 +13,7 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.models import load_model
 
 
-print(tf.__version__) # 2.15.0
+print(tf.__version__)
 
 
 # parametry przy uruchamianiu
@@ -63,8 +63,8 @@ y_true = generator.classes
 
 # df z wynikami
 predictions = pd.DataFrame({'prob': prob, 'y_pred': pred_classes, 'y_true': y_true},
-                           index=generator.filenames)  # indeks - nazwa pliku
-predictions['is_incorrect'] = (predictions['y_true'] != predictions['y_pred']) * 1  # czy źle sklasyfikowany
+                           index=generator.filenames)
+predictions['is_incorrect'] = (predictions['y_true'] != predictions['y_pred']) * 1
 
 
 print('\n====')
@@ -74,19 +74,19 @@ print('====')
 
 # dodanie etykiet do df
 label_map = dict((v, k) for k, v in label_map.items())
-predictions['class'] = predictions['y_pred'].apply(lambda x: label_map[x])  # nazwa klasy
+predictions['class'] = predictions['y_pred'].apply(lambda x: label_map[x])
 
 # fragment df ze źle sklasyfikowanymi obrazami
 errors = predictions[predictions['is_incorrect'] == 1]['prob']
 
-# przydzielone klasy do np.array([0, 0, 1,...,0]) do wyświetlenia raportów
+# wydobycie klas w postaci array do oceny modelu
 y_pred = predictions['y_pred'].values
 
 print(f'\n[INFO] Macierz konfuzji:\n{confusion_matrix(y_true, y_pred)}')
 print(f'\n[INFO] Raport klasyfikacji:\n{classification_report(y_true, y_pred, target_names=generator.class_indices.keys())}')
 print(f'\n[INFO] Dokładność modelu: {accuracy_score(y_true, y_pred) * 100:.2f}%')
 
-# df to csv
+# eksport wyników do pliku csv
 predictions.to_csv(r'output/predictions.csv')
 
 print(f'\n[INFO] Błędnie sklasyfikowano: {len(errors)}')

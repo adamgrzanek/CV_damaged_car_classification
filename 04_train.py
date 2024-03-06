@@ -24,17 +24,17 @@ print(f'Tensorflow version: {tf.__version__}')
 
 # argumenty przy odpalaniu z termianala: liczba epok
 ap = argparse.ArgumentParser()
-ap.add_argument('-e', '--epochs', default=1, help='Określ liczbę epok', type=int)  # domyślnie 1 epoka
+ap.add_argument('-e', '--epochs', default=1, help='Określ liczbę epok', type=int)
 args = vars(ap.parse_args()) # -> {'epochs': 1}
 
 
 # stałe
-LEARNING_RATE = 0.001  # wskaźnik uczenia
-EPOCHS = args['epochs']  # liczba epok (to co przekarzemy jako argument przy odpalaniu skryptu)
-BATCH_SIZE = 32  # rozmiar wsadu
-INPUT_SHAPE = (224, 224, 3)  # kształt danych wejściowych
-TRAIN_DIR = 'splitted_images/train'  # katalog do zbioru treningowego
-VALID_DIR = 'splitted_images/valid'  # katalog do zbioru validacyjnego
+LEARNING_RATE = 0.001
+EPOCHS = args['epochs']
+BATCH_SIZE = 32
+INPUT_SHAPE = (224, 224, 3)
+TRAIN_DIR = 'splitted_images/train'
+VALID_DIR = 'splitted_images/valid'
 
 
 # wykres historii uczenia
@@ -62,7 +62,7 @@ def plot_hist(history, filename):
     po.plot(fig, filename=filename, auto_open=False)
 
 
-# generator zbioru treningowego (augumentacja)
+# generator zbioru treningowego
 train_datagen = ImageDataGenerator(
     rotation_range=30,
     rescale=1. / 255.,
@@ -74,9 +74,8 @@ train_datagen = ImageDataGenerator(
     fill_mode='nearest'
 )
 
-# generator zbioru walidacyjnego (augumentacja)     (!!!!tylko zmiana rozmiaru!!!!)
+# generator zbioru walidacyjnego (tylko zmiana rozmiaru)
 valid_datagen = ImageDataGenerator(rescale=1. / 255.)
-
 
 
 # budowanie generatora z katalogu
@@ -84,7 +83,6 @@ train_generator = train_datagen.flow_from_directory(
     directory=TRAIN_DIR,
     target_size=INPUT_SHAPE[:2],
     batch_size=BATCH_SIZE,
-    #class_mode='binary'
     class_mode='categorical'
 )
 
@@ -98,8 +96,8 @@ valid_generator = valid_datagen.flow_from_directory(
 
 
 # wczytanie wybranego modelu (architektura modelu; który model wybieramy z naszego modułu "models.py")
-MODEL_NAME = 'custom_VGG16'  # nazwa modelu do zapisu pliku
-architecture = models.custom_VGG16(input_shape=INPUT_SHAPE, num_classes=2, final_activation='softmax')  # utworzona instancja
+MODEL_NAME = 'custom_VGG16'
+architecture = models.custom_VGG16(input_shape=INPUT_SHAPE, num_classes=2, final_activation='softmax')
 
 # wywołanie funkcji budującej strukture modelu
 model = architecture.build()
@@ -108,7 +106,6 @@ model = architecture.build()
 # kompilacja modelu
 model.compile(
     optimizer=Adam(),
-    #loss='binary_crossentropy',
     loss='categorical_crossentropy',
     metrics=['accuracy']
 )
@@ -134,10 +131,10 @@ for dir in os.listdir(TRAIN_DIR):
     train_class_weight[dir] = len(os.listdir(os.path.join(TRAIN_DIR, dir))) # {'damaged_cars': 619, 'ok_cars': 973}
 
 damaged_ratio = np.round(train_class_weight['ok_cars'] / train_class_weight['damaged_cars'], 2)
-print(damaged_ratio) # 1.57
+print(damaged_ratio)
 
 class_weight = {tg_class['damaged_cars']: damaged_ratio, tg_class['ok_cars']: 1}
-print(class_weight) # {0: 1.57, 1: 1}
+print(class_weight)
 
 
 print('\nTrenowanie modelu.')
@@ -159,7 +156,7 @@ filename = os.path.join('output', 'report_' f'{MODEL_NAME}_'+ dt + '.html')
 plot_hist(history, filename=filename)
 
 
-# info o mapowaniu klas
+# eksport pliku z mapowaniem klas
 print('\nEksport etykiet do pliku.')
 with open(r'output\labels.pickle', 'wb') as file:
     file.write(pickle.dumps(train_generator.class_indices))
